@@ -1,0 +1,19 @@
+{
+  "name": "amountinwords",
+  "version": "1.0.0",
+  "description": "Convert amount in words",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build":"tsc && uglifyjs dist/index.js -o dist/index.js -c -m",
+    "test": "npx jest"
+  },
+  "author": "Ashish Bagaddeo",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^26.0.14",
+    "jest": "^26.5.2",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.3"
+  }
+}
