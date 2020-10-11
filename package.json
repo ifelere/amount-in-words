@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build":"tsc && uglifyjs dist/index.js -o dist/index.js -c -m",
+    "build":"tsc",
     "test": "npx jest"
   },
   "author": "Ashish Bagaddeo",
