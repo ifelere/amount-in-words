@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build":"tsc",
+    "build": "tsc",
     "test": "npx jest"
   },
   "author": "Ashish Bagaddeo",
@@ -15,5 +15,25 @@
     "jest": "^26.5.2",
     "ts-jest": "^26.4.1",
     "typescript": "^4.0.3"
-  }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cod-e-ash/amount-in-words.git"
+  },
+  "keywords": [
+    "Amount",
+    "Typescript",
+    "Javascript"
+  ],
+  "bugs": {
+    "url": "https://github.com/cod-e-ash/amount-in-words/issues"
+  },
+  "homepage": "https://github.com/cod-e-ash/amount-in-words#readme"
 }
