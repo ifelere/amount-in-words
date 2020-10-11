@@ -6,7 +6,11 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "npx jest"
+    "test": "npx jest",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "author": "Ashish Bagaddeo",
   "license": "MIT",
