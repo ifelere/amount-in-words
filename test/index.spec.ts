@@ -42,3 +42,13 @@ test('pence-1', () => {
 test('pence-55', () => {
     expect(atw.convertInWord('001.55', CountryCodes.GBR)).toEqual('One Pound And Fifty Five Pence');
 });
+
+test('supports ngr country code', () => {
+    expect(atw.convertInWord(1000, CountryCodes.NGR)).toEqual('One Thousand Naira');
+    expect(atw.convertInWord('001.55', CountryCodes.NGR)).toEqual('One Naira And Fifty Five Kobo');
+    expect(atw.convertInWord('0.01', CountryCodes.NGR)).toEqual('Zero Naira And One Kobo');
+    expect(atw.convertInWord('001.87', CountryCodes.NGR)).toEqual('One Naira And Eighty Seven Kobo');
+    expect(atw.convertInWord('632,362,999,101,001', CountryCodes.NGR)).toEqual('Six Hundred Thirty Two Trillion Three Hundred Sixty Two Billion Nine Hundred Ninety Nine Million One Hundred One Thousand One Naira');
+    expect(atw.convertInWord(554272561010, CountryCodes.NGR)).toEqual('Five Hundred Fifty Four Billion Two Hundred Seventy Two Million Five Hundred Sixty One Thousand Ten Naira');
+
+})

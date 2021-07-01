@@ -2,6 +2,7 @@ export enum CountryCodes {
   IND = "IND",
   USA = "USA",
   GBR = "GBR",
+  NGR = "NGR",
 }
 
 export class AmountToWords {
@@ -49,22 +50,33 @@ export class AmountToWords {
       "Trillion ",
     ],
     inNumSys: ["", "Hundred ", "Thousand ", "Lakh ", "Crore "],
+
   };
+
+  /**
+   * Ifelere: Naira does not not have an 's' for plural therefore this map is adjusted to have currencies declare plural form
+   */
   private curCodes: { [countryCode: string]: string[] } = {
-    IND: ["Rupee", "Paisa", "Paise", "₹", "inNumSys"],
-    USA: ["Dollar", "Cent", "Cents", "$", "usNumSys"],
-    GBR: ["Pound", "Pence", "Pence", "£", "usNumSys"],
+    IND: ["Rupee", "Paisa", "Paise", "₹", "inNumSys", "Rupees"],
+    USA: ["Dollar", "Cent", "Cents", "$", "usNumSys", "Dollars"],
+    GBR: ["Pound", "Pence", "Pence", "£", "usNumSys", "Pounds"],
+    NGR: ["Naira", "Kobo", "Kobo", "₦", "usNumSys", "Naira"]
   };
 
   private getCurrencyWhole = (
     countryCode: string = "IND",
     amount: number = 0
   ) => {
+    // Ifelere: If the amount is more than one use index 5 of curCodes map
+    const index = amount > 1 ? 5 : 0;
+
     const cur = this.curCodes[countryCode]
-      ? this.curCodes[countryCode][0]
-      : this.curCodes["IND"][0];
-    if (amount > 1) return cur + "s";
-    else return cur;
+      ? this.curCodes[countryCode][index]
+      : this.curCodes["IND"][index];
+
+    // if (amount > 1) return cur + "s";
+    // else return cur;
+    return cur;
   };
 
   private getCurrencyChange = (countryCode: string, amount: number = 0) => {
