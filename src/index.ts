@@ -5,6 +5,17 @@ export enum CountryCodes {
   NGR = "NGR",
 }
 
+export enum FormatImplementation {
+  DEFAULT = "default",
+  USE_AND_IN_NO_CHANGE_US_SYSTEM = "USE_AND_IN_NO_CHANGE_US_SYSTEM"
+}
+
+
+export interface ConvertOptions {
+  implementation?: FormatImplementation
+}
+
+
 export class AmountToWords {
   private first = [
     "",
@@ -102,8 +113,10 @@ export class AmountToWords {
       : this.curCodes["IND"][4];
   };
 
-  public convertInWord = (num: any, countryCode: string = "IND") => {
+  public convertInWord = (num: any, countryCode: string = "IND", options?: ConvertOptions) => {
     // console.log(num);
+    options = options || {implementation: FormatImplementation.DEFAULT};
+
     const numSys = this.numSys[this.getNumSys(countryCode)];
     const nStr = num.toString().split(".");
     // Remove any other characters than numbers
@@ -112,7 +125,7 @@ export class AmountToWords {
     const wholeStrPart =
       this.getNumSys(countryCode) === "inNumSys"
         ? this.convert(wholeStr, numSys).trim()
-        : this.convertInUS(wholeStr, numSys).trim();
+        : this.convertInUS(wholeStr, numSys, options.implementation || FormatImplementation.DEFAULT, decimalStr).trim();
     const decimalPart = this.convert(decimalStr, numSys).trim();
     let valueInStr =
       wholeStrPart.length > 0
@@ -143,15 +156,20 @@ export class AmountToWords {
     return finalStr.join("");
   };
 
-  private convertInUS = (num: number | string, numSys: string[]) => {
+  private convertInUS = (num: number | string, numSys: string[], implementation: FormatImplementation, trailingFigure: number = 0) => {
     const numStr = num.toString().split("");
     const finalStr = [];
     while (numStr.length > 0) {
       // console.log(numSys.length);
       for (let i = 0, l = numSys.length * 2 - 1; i < l; ++i) {
         // console.log(numStr, i, (i/2)+1);
-        if (i === 0)
-          finalStr.unshift(this.getUnits(numStr.splice(-2), numSys, 0));
+        if (i === 0) {
+          let part = this.getUnits(numStr.splice(-2), numSys, 0);
+          if (part && trailingFigure < 1 && implementation === FormatImplementation.USE_AND_IN_NO_CHANGE_US_SYSTEM) {
+            part = `And ${part}`;
+          }
+          finalStr.unshift(part);
+        }
         else if (i % 2 === 1)
           finalStr.unshift(this.getUnits(numStr.splice(-1), numSys, 1));
         else {
